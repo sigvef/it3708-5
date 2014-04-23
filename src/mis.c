@@ -1,5 +1,7 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
+#include "mis.h"
 #include "graph.h"
 
 void swap(Node** array, int i, int j){
@@ -12,7 +14,7 @@ bool random(double p){
     return p < (double) rand() / RAND_MAX;
 }
 
-void mis(Node** nodes, int nodes_length){
+int mis(Node** nodes, int nodes_length){
 
     /* find maximum degree of graph */
     int maximum_degree = 0;
@@ -34,7 +36,7 @@ void mis(Node** nodes, int nodes_length){
     for(int i=0;i<m_log2_n;i++){
 
         if(p > 1) {
-            return;
+            return number_of_leaders;
         }
 
         /* round 1 */
@@ -62,6 +64,7 @@ void mis(Node** nodes, int nodes_length){
                     Node* neighbor = node->neighbors[k];
                     neighbor->has_received_signal = 1;
                 }
+                printf("found a leader: %d\n", node->name);
                 swap(nodes, j--, nodes_length - number_of_leaders++ - 1);
                 number_of_active_nodes--;
             }else{
@@ -72,4 +75,6 @@ void mis(Node** nodes, int nodes_length){
         }
         p *= 2;
     }
+
+    return number_of_leaders;
 }

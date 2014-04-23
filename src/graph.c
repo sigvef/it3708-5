@@ -47,8 +47,10 @@ void read_graph(const char* filename, Node*** nodes, int* nodes_length){
 
     for(int i=0;i<number_of_vertices;i++){
         (*nodes)[i] = create_node();
-        (*nodes)[i]->name = i;
-        fscanf(fp, "%lf %lf", &((*nodes)[i]->x), &((*nodes)[i]->y));
+        fscanf(fp, "%d %lf %lf",
+                &((*nodes)[i]->name),
+                &((*nodes)[i]->x),
+                &((*nodes)[i]->y));
     }
 
     for(int i=0;i<number_of_edges;i++){
@@ -68,3 +70,13 @@ void destroy_graph(Node ** nodes, int length){
     free(nodes);
 }
 
+void print_graph(Node** nodes, int length){
+    for(int i=0;i<length;i++){
+        print_node(nodes[i]);
+    }
+    printf("\n");
+}
+
+void print_node(Node* node){
+    printf("%d ", node->name);
+}
