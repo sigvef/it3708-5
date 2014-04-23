@@ -21,11 +21,10 @@ int main(int argc, char**argv){
 
     int number_of_leaders = mis(nodes, nodes_length);
 
-    printf("leaders: ");
+    puts(argv[1]);
     for(int i = nodes_length - number_of_leaders; i < nodes_length; i++){
-        printf("%d ", nodes[i]->name);
+        printf("%d 1\n", nodes[i]->name);
     }
-    printf("\n");
 
     destroy_graph(nodes, nodes_length);
     return 0;
