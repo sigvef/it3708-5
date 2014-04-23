@@ -47,6 +47,7 @@ void read_graph(const char* filename, Node*** nodes, int* nodes_length){
 
     for(int i=0;i<number_of_vertices;i++){
         (*nodes)[i] = create_node();
+        (*nodes)[i]->name = i;
         fscanf(fp, "%lf %lf", &((*nodes)[i]->x), &((*nodes)[i]->y));
     }
 
