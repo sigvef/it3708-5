@@ -6,7 +6,7 @@ mis: $(SRC)
 	colorgcc --std=c99 -g -Iinclude/ -o bin/$@ $? $(CFLAGS) -lm
 
 run: mis
-	bin/mis
+	bin/mis res/two-leaders.txt
 
 debug: mis
 	gdb -tui bin/mis

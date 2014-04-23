@@ -5,13 +5,19 @@
 #include "mis.h"
 
 
-int main(){
+int main(int argc, char**argv){
+
+    if(argc == 1) {
+        printf("Minimal Independant Set Solver 3000™\n");
+        printf("Usage: mis filename [options]\n");
+        return -1;
+    }
 
     srand(time(NULL));
 
     Node** nodes = NULL;
     int nodes_length = 0;
-    read_graph("res/two-leaders.txt", &nodes, &nodes_length);
+    read_graph(argv[1], &nodes, &nodes_length);
 
     int number_of_leaders = mis(nodes, nodes_length);
 

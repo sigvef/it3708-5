@@ -17,7 +17,7 @@ struct Node {
     int state;
 };
 
-void read_graph(const char* filename, Node*** nodes, int* nodes_length);
+void read_graph(char* filename, Node*** nodes, int* nodes_length);
 void destroy_graph(Node** nodes, int length);
 void print_graph(Node** nodes, int length);
 void print_node(Node* node);

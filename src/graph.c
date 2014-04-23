@@ -30,7 +30,7 @@ void add_neighbor(Node* node, Node* neighbor){
     node->neighbors[node->neighbors_length++] = neighbor;
 }
 
-void read_graph(const char* filename, Node*** nodes, int* nodes_length){
+void read_graph(char* filename, Node*** nodes, int* nodes_length){
     FILE *fp; 
     if((fp = fopen(filename, "r")) == NULL){
         printf("File not found\n");
@@ -60,6 +60,8 @@ void read_graph(const char* filename, Node*** nodes, int* nodes_length){
         add_neighbor((*nodes)[a], (*nodes)[b]);
 
     }
+
+    fclose(fp);
 }
 
 void destroy_graph(Node ** nodes, int length){
