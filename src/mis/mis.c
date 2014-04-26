@@ -14,7 +14,7 @@ bool random(double p){
     return p > (double) rand() / RAND_MAX;
 }
 
-int mis(Node** nodes, int nodes_length){
+int mis(Node** nodes, int nodes_length, int* active_nodes){
 
     /* find maximum degree of graph */
     int maximum_degree = 0;
@@ -89,4 +89,33 @@ int mis(Node** nodes, int nodes_length){
     }
 
     return number_of_leaders;
+}
+
+int mis_verify(Node** nodes, int nodes_length, int* adjacent_leader_pairs,
+               int* leaderless_nodes){
+    *adjacent_leader_pairs = 0;
+    *leaderless_nodes = 0;
+    for(int i=0;i<nodes_length;i++){
+        Node* node = nodes[i];
+        int leaderless = 1;
+        if(node->state == 1){
+            leaderless = 0;
+        }
+        for(int j=0;j<node->neighbors_length;j++){
+            Node* neighbor = node->neighbors[j];
+            if(neighbor->state == 1){
+                leaderless = 0;
+                if(node->state == 1){
+                    (*adjacent_leader_pairs)++;
+                }
+            }
+        }
+        if(leaderless){
+            (*leaderless_nodes)++;
+        }
+    }
+
+    *adjacent_leader_pairs /= 2;
+
+    return (*adjacent_leader_pairs) + (*leaderless_nodes);
 }
