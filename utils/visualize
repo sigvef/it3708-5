@@ -57,13 +57,29 @@ def main():
                            node_size=500,
                            alpha=0.8)
     color_map = {
-        1: 'r',
+        1: '#FFB300',
+        2: '#007D34',
+        3: '#F6768E',
+        4: '#00538A',
+        5: '#FF7A5C',
+        6: '#53377A',
+        7: '#FF8E00',
+        8: '#B32851',
+        9: '#F4C800',
+        10: '#7F180D',
+        11: '#93AA00',
+        12: '#593315',
+        13: '#F13A13',
+        14: '#232C16',
     }
+
+
 
     for color, nodes in colors.iteritems():
         nx.draw_networkx_nodes(graph, pos,
                                nodelist=nodes,
-                               node_color=color_map[color],
+                               node_color=
+                               color_map[(color % len(color_map)) + 1],
                                node_size=500,
                                alpha=0.8)
 

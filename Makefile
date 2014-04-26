@@ -1,15 +1,21 @@
-SRC=$(wildcard src/*.c)
+MIS_SRC=$(wildcard src/mis/*.c)
+VC_SRC=$(wildcard src/vc/*.c)
 
-mis: $(SRC)
+vc: $(VC_SRC)
 	clear
 	test -d bin || mkdir bin
-	colorgcc --std=c99 -g -Iinclude/ -o bin/$@ $? $(CFLAGS) -lm
+	colorgcc --std=c99 -g -Iinclude/vc/ -o bin/$@ $? $(CFLAGS) -lm
 
-run: mis
+mis: $(MIS_SRC)
+	clear
+	test -d bin || mkdir bin
+	colorgcc --std=c99 -g -Iinclude/mis/ -o bin/$@ $? $(CFLAGS) -lm
+
+run-vc: vc
+	bin/vc res/two-leaders.txt 10
+
+run-mis: mis
 	bin/mis res/two-leaders.txt
-
-debug: mis
-	gdb -tui bin/mis
 
 .PHONY: clean
 clean:
