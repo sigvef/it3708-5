@@ -72,6 +72,7 @@ void read_graph(char* filename, Node*** nodes, int* nodes_length, int n_colors){
 void destroy_graph(Node ** nodes, int length){
     for(int i=0;i<length;i++){
         free(nodes[i]->neighbors);
+        free(nodes[i]->available_colors);
         free(nodes[i]);
     }
     free(nodes);
