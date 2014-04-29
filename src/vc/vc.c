@@ -56,7 +56,7 @@ int vc(Node** nodes, int nodes_length){
             for(int j=0;j<number_of_non_permanents;j++){
                 Node* node = nodes[j];
 
-                if(node->available_colors == 0){
+                if(node->available_colors_length == 0){
                     /* randomly undo a neighbor's color choice */
                     Node* neighbor = node->neighbors[
                         randint(0, node->neighbors_length)];
@@ -73,8 +73,8 @@ int vc(Node** nodes, int nodes_length){
                                 l++){
                             if(neighbor->selected_color ==
                                     neighborneighbor->available_colors[l]){
-                                int_swap(neighbor->available_colors,
-                                         neighbor->available_colors_length++, l);
+                                int_swap(neighborneighbor->available_colors,
+                                         neighborneighbor->available_colors_length++, l);
                                 break;
                             }
                         }
