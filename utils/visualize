@@ -90,6 +90,8 @@ def main():
                                 font_color=(1, 1, 1, 0.9))
 
     plt.axis('off')
+    wm = plt.get_current_fig_manager()
+    wm.window.maximize()
     plt.show()
 
 
