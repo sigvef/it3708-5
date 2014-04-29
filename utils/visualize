@@ -13,7 +13,8 @@ def main():
         'Visualizes graphs for use in homework module 5 of it3708. ' +
         'Both the original graph format and the augmented graph format ' +
         'can be visualized. Augmented graphs can be read from stdin by ' +
-        'specifying - as the graph path.')
+        'specifying - as the graph path, while regular graphs can be read' +
+        'through the graph_path command line argument.')
     parser.add_argument('graph_path', metavar='graph_path', type=str,
                         help='the relative path of the graph to visualize')
     parser.add_argument('--spring', action='store_true',
