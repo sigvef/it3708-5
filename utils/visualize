@@ -57,6 +57,7 @@ def main():
                            node_size=500,
                            alpha=0.8)
     color_map = {
+        0: 'black',
         1: '#FFB300',
         2: '#007D34',
         3: '#F6768E',
