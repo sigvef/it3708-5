@@ -4,7 +4,7 @@
 #include "graph.h"
 
 
-int vc(Node** nodes, int nodes_length);
+int vc(Node** nodes, int nodes_length, double probability_dampener);
 int vc_verify(Node** nodes, int nodes_length,
               int* uncolored, int* same_color_neighbor_pairs);
 

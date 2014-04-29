@@ -26,7 +26,7 @@ int randint(int low, int high){
     return low + (int)((double) rand() / (RAND_MAX - 1) * (high - low));
 }
 
-int vc(Node** nodes, int nodes_length){
+int vc(Node** nodes, int nodes_length, double probability_dampener){
 
     /* find maximum degree of graph */
     int maximum_degree = 0;
@@ -41,11 +41,11 @@ int vc(Node** nodes, int nodes_length){
         node->available_colors_length = node->available_colors_max_length;
     }
     
-    double p = 1. / maximum_degree;
+    double p = 1. / maximum_degree / probability_dampener;
 
     int number_of_non_permanents = nodes_length;
 
-    int M = 34;
+    int M = 3400;
     int m_log2_n = M * log((double)nodes_length) / log(2.);
 
     while(p < 1) {
@@ -60,25 +60,38 @@ int vc(Node** nodes, int nodes_length){
                     /* randomly undo a neighbor's color choice */
                     Node* neighbor = node->neighbors[
                         randint(0, node->neighbors_length)];
-                    neighbor->state = 0;
-                    node_swap(nodes, neighbor->index,
-                              number_of_non_permanents++);
-                    /* notify neighbor's neighbors of unselection */
-                    for(int k=0;k<neighbor->neighbors_length;k++){
-                        Node* neighborneighbor = neighbor->neighbors[k];
+                    if(neighbor->state == 2){
+                        /* notify neighbor's neighbors of unselection */
+                        for(int k=0;k<neighbor->neighbors_length;k++){
+                            Node* neighborneighbor = neighbor->neighbors[k];
 
-                        /* look for selected color in non-available colors */
-                        for(int l = neighborneighbor->available_colors_length;
-                                l < neighborneighbor->available_colors_max_length;
-                                l++){
-                            if(neighbor->selected_color ==
-                                    neighborneighbor->available_colors[l]){
-                                int_swap(neighborneighbor->available_colors,
-                                         neighborneighbor->available_colors_length++, l);
-                                break;
+                            int count = 0;
+                            for(int l=0;l<neighborneighbor->neighbors_length;l++){
+                                Node* neighborneighborneighbor = neighborneighbor->neighbors[l];
+                                if(neighborneighborneighbor->state == 2 &&
+                                        neighborneighborneighbor->selected_color == neighbor->selected_color){
+                                    count++;
+                                }
+                            }
+
+                            if(count == 1){
+                                /* look for selected color in non-available colors */
+                                for(int l = neighborneighbor->available_colors_length;
+                                        l < neighborneighbor->available_colors_max_length;
+                                        l++){
+                                    if(neighbor->selected_color ==
+                                            neighborneighbor->available_colors[l]){
+                                        int_swap(neighborneighbor->available_colors,
+                                                 neighborneighbor->available_colors_length++, l);
+                                        break;
+                                    }
+                                }
                             }
                         }
-
+                        neighbor->state = 0;
+                        neighbor->selected_color = 0;
+                        node_swap(nodes, neighbor->index,
+                                  number_of_non_permanents++);
                     }
 
                 }
@@ -95,29 +108,32 @@ int vc(Node** nodes, int nodes_length){
                     for(int k=0;k<node->signalled_colors_length;k++){
                         if(node->selected_color == node->available_colors[k]){
                             node->state = 0;
+                            node->selected_color = 0;
                         }
                     }
 
-                    /* notify neighbors of selection */
-                    for(int k=0;k<node->neighbors_length;k++){
-                        Node* neighbor = node->neighbors[k];
+                    if(node->state == 1){
+                        /* notify neighbors of selection */
+                        for(int k=0;k<node->neighbors_length;k++){
+                            Node* neighbor = node->neighbors[k];
 
-                        if(neighbor->state == 1 &&
-                           neighbor->selected_color == node->selected_color){
-                            neighbor->state = 0;
-                            continue;
-                        }
+                            if(neighbor->state == 1 &&
+                               neighbor->selected_color == node->selected_color){
+                                neighbor->state = 0;
+                                continue;
+                            }
 
-                        /* look for selected color in
-                         * non-signalled available colors */
-                        for(int l = neighbor->signalled_colors_length;
-                                l < neighbor->available_colors_length;
-                                l++){
-                            if(node->selected_color ==
-                                    neighbor->available_colors[l]){
-                                int_swap(neighbor->available_colors,
-                                         neighbor->signalled_colors_length++, l);
-                                break;
+                            /* look for selected color in
+                             * non-signalled available colors */
+                            for(int l = neighbor->signalled_colors_length;
+                                    l < neighbor->available_colors_length;
+                                    l++){
+                                if(node->selected_color ==
+                                        neighbor->available_colors[l]){
+                                    int_swap(neighbor->available_colors,
+                                             neighbor->signalled_colors_length++, l);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -137,8 +153,7 @@ int vc(Node** nodes, int nodes_length){
                     node_swap(nodes, j, --number_of_non_permanents);
                     for(int k=0;k<node->neighbors_length;k++){
                         Node* neighbor = node->neighbors[k];
-                        /* look for selected color in
-                         * non-signalled available colors */
+                        /* look for selected color in available colors */
                         for(int l=0;l<neighbor->available_colors_length;l++){
                             if(node->selected_color ==
                                     neighbor->available_colors[l]){

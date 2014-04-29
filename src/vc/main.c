@@ -7,9 +7,10 @@
 
 int main(int argc, char**argv){
 
-    if(argc != 3 && argc != 4) {
+    if(argc != 3 && argc != 4 && argc != 5) {
         printf("Vertex Coloring Solver 3000™\n");
-        printf("Usage: vc filename n_colors [--single]\n");
+        printf("Usage: vc filename n_colors [probability dampener] [--single]\n");
+        printf("      (all arguments are positional)\n");
         return -1;
     }
 
@@ -22,8 +23,8 @@ int main(int argc, char**argv){
     int nodes_length = 0;
     read_graph(argv[1], &nodes, &nodes_length, atoi(argv[2]));
 
-    for(int _=0;_<(argc == 4 ? 1 : 100);_++){
-        vc(nodes, nodes_length);
+    for(int _=0;_<(argc == 5 ? 1 : 1000);_++){
+        vc(nodes, nodes_length, argc == 4 ? (double) atoi(argv[3]) : 1000.);
         violations = vc_verify(nodes, nodes_length, &uncolored,
                                &same_color_neighbor_pairs);
         if(violations == 0){
