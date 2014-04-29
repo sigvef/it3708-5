@@ -24,7 +24,7 @@ int main(int argc, char**argv){
     read_graph(argv[1], &nodes, &nodes_length, atoi(argv[2]));
 
     for(int _=0;_<(argc == 5 ? 1 : 1000);_++){
-        vc(nodes, nodes_length, argc == 4 ? (double) atoi(argv[3]) : 1000.);
+        vc(nodes, nodes_length, argc >= 4 ? (double) atoi(argv[3]) : 1000.);
         violations = vc_verify(nodes, nodes_length, &uncolored,
                                &same_color_neighbor_pairs);
         if(violations == 0){
