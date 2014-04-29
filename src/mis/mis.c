@@ -14,7 +14,7 @@ bool random(double p){
     return p > (double) rand() / RAND_MAX;
 }
 
-int mis(Node** nodes, int nodes_length, int* active_nodes){
+int mis(Node** nodes, int nodes_length, int M, int* active_nodes){
 
     /* find maximum degree of graph */
     int maximum_degree = 0;
@@ -30,8 +30,7 @@ int mis(Node** nodes, int nodes_length, int* active_nodes){
     int number_of_leaders = 0;
     int number_of_non_leaders = 0;
 
-    int M = 34;
-    int m_log2_n = 34 * log((double)nodes_length) / log(2.);
+    int m_log2_n = M * log((double)nodes_length) / log(2.);
 
     while(p < 1) {
 

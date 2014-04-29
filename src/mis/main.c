@@ -9,7 +9,7 @@ int main(int argc, char**argv){
 
     if(argc == 1) {
         printf("Minimal Independant Set Solver 3000™\n");
-        printf("Usage: mis filename [options]\n");
+        printf("Usage: mis filename [M]\n");
         return -1;
     }
 
@@ -20,7 +20,8 @@ int main(int argc, char**argv){
     read_graph(argv[1], &nodes, &nodes_length);
 
     int active_nodes = 0;
-    int number_of_leaders = mis(nodes, nodes_length, &active_nodes);
+    int M = argc == 3 ? atoi(argv[2]) : 34;
+    int number_of_leaders = mis(nodes, nodes_length, M, &active_nodes);
 
     int adjacent_leader_pairs = 0;
     int leaderless_nodes = 0;
